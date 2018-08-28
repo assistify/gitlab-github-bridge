@@ -1,0 +1,15 @@
+kind: ImageStream
+apiVersion: v1
+metadata:
+  labels:
+    app: gitlab-github-bridge
+  name: is-gitlab-github-bridge
+spec:
+  dockerImageRepository: ""
+  tags:
+    -
+      name: gitlab-github-bridge
+      importPolicy:
+        scheduled: true
+status:
+  dockerImageRepository: ""

@@ -1,0 +1,69 @@
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  creationTimestamp: null
+  name: dc-gitlab-github-bridge
+spec:
+  replicas: 1
+  selector:
+    name: gitlab-github-bridge
+  strategy:
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: gitlab-github-bridge
+  
+    spec:
+      containers:
+      - capabilities: {}
+        image: ' '
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          exec:
+            command:
+            - /usr/bin/pgrep
+            - node
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        livenessProbe:
+          exec:
+            command:
+            - /usr/bin/pgrep
+            - node
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        name: cnt-gitlab-github-bridge
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        - containerPort: 3001
+          protocol: TCP
+        args:
+          - node
+          - index.js
+        envFrom:
+          - secretRef:
+              name: gitlab-github-bridge
+        securityContext:
+          capabilities: {}
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumeMounts:
+        - name: github-app-pem
+          mountPath: /mnt/secrets
+          readOnly: true
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - cnt-gitlab-github-bridge
+      from:
+        kind: ImageStreamTag
+        name: is-gitlab-github-bridge:latest
+      lastTriggeredImage: ""
+    type: ImageChange
+  - type: ConfigChange

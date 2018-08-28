@@ -1,0 +1,24 @@
+kind: Service
+apiVersion: v1
+metadata:
+  creationTimestamp: null
+  name: gitlab-github-bridge
+spec:
+  portalIP: ""
+  ports:
+  - name: github-port
+    nodePort: 0
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  - name: gitlab-port
+    nodePort: 0
+    port: 3001
+    protocol: TCP
+    targetPort: 3001
+  selector:
+    name: gitlab-github-bridge
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

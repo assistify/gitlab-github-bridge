@@ -1,0 +1,25 @@
+{
+  "name": "gitlab-github-bridge",
+  "version": "0.0.1",
+  "description": "Receives events from github via web hooks and sends it to github.com as a check run.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "docker build -t joschi64/gitlab-github-bridge . && docker push joschi64/gitlab-github-bridge"
+  },
+  "author": "Joachim Schirrmacher <joachim.schirrmacher@deutschebahn.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^15.10.0",
+    "@octokit/webhooks": "^5.0.0",
+    "body-parser": "^1.18.3",
+    "eventsource": "^1.0.7",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "superagent": "^3.8.3"
+  },
+  "devDependencies": {
+    "dotenv": "^6.0.0"
+  }
+}
